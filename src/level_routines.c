@@ -1047,12 +1047,16 @@ void set_new_best(u32 new_best, u32 mode) {
                 }
                 level_data->completed = TRUE;
             }
+            // Save attempts
+            level_data->attempts += (attempt_count - 1);
             write_save_block();
         }
     } else {
         if (level_data->practice_progress < new_best) {
             // New practice mode best
             level_data->practice_progress = new_best;
+            // Save attempts
+            level_data->attempts += (attempt_count - 1);
             write_save_block();
         }
     }

@@ -317,6 +317,11 @@ void game_loop() {
 }
 
 void exit_level() {
+    // Save attempts for this level
+    struct SaveLevelData *level_data = obtain_level_data(loaded_level_id);
+    level_data->attempts += (attempt_count - 1);
+    write_save_block();
+    
     mmStop();
     mmEffect(SFX_LEVEL_EXIT);
     game_state = STATE_LEVEL_SELECT;      

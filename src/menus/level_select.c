@@ -28,6 +28,7 @@ void draw_endless_distance_menu(s32 x, s32 y, s32 page, u32 value);
 
 EWRAM_DATA u16 bg_lvl_select_color;
 EWRAM_DATA u16 bg_lvl_select_color_target;
+EWRAM_DATA u8 viewing_attempts;
 
 u64 target_scroll_x;
 #define scroll_page intended_scroll_y // REPURPOSED FOR MENU
@@ -346,6 +347,7 @@ void level_select_loop() {
     }
 
     fade_in_menu();
+    viewing_attempts = FALSE;
     while (1) {
         key_poll();
         
@@ -387,6 +389,7 @@ void level_select_loop() {
             level_id = WRAP(level_id, min, max);
 
             do_page_change(level_id);
+            viewing_attempts = FALSE;
         }
 
         // Go left
@@ -397,6 +400,17 @@ void level_select_loop() {
             level_id = WRAP(level_id, min, max);
 
             do_page_change(level_id);
+            viewing_attempts = FALSE;
+        }
+
+        // View attempts
+        if (key_hit(KEY_SELECT)) {
+            viewing_attempts ^= 1;
+            if (viewing_attempts) {
+                print_level_attempts(level_id);
+            } else {
+                do_page_change(level_id);
+            }
         }
 
         if (key_hit(KEY_A | KEY_START)) {
@@ -576,6 +590,37 @@ s32 word_wrap(const char *text, s32 max_width, char lines[][max_width + 1], s32 
     }
 
     return line_count;
+}
+
+
+void print_level_attempts(u16 level_id) {
+    struct SaveLevelData *level_data = obtain_level_data(level_id);
+    
+    // Get target screen block number
+    s32 sb_number = TEXT_SCREEN_BLOCK;
+
+    // Add SCREENBLOCK_H to print on the second screen block
+    if (scroll_page & 1) {
+        sb_number++;
+    }
+
+    memcpy32(&se_mem[sb_number][0], level_select_l2_tilemap, sizeof(level_select_l2_tilemap) / 4);
+
+    // Display attempts count
+    tte_set_pos(80, 80);
+    tte_write("TOTAL ATTEMPTS:");
+    
+    tte_set_pos(80, 96);
+    
+    // Format and write the attempts count
+    char attempt_str[16];
+    sprintf(attempt_str, "%d", level_data->attempts);
+    tte_write(attempt_str);
+    
+    tte_set_pos(80, 160);
+    tte_write("PRESS SELECT AGAIN");
+    tte_set_pos(80, 176);
+    tte_write("TO RETURN");
 }
 
 
