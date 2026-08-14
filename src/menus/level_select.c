@@ -469,11 +469,8 @@ void do_menu_color_transition() {
 }
 
 static void clear_menu_text_area(void) {
-    if (scroll_page & 1) {
-        tte_erase_rect(0, 256, 240, 512);
-    } else {
-        tte_erase_rect(0, 0, 240, 256);
-    }
+    memset32(&se_mem[TEXT_SCREEN_BLOCK][0], 0, sizeof(SCREENBLOCK) / 4);
+    memset32(&se_mem[TEXT_SCREEN_BLOCK + 1][0], 0, sizeof(SCREENBLOCK) / 4);
 }
 
 void do_page_change(u16 level_id) {
@@ -603,24 +600,10 @@ void print_level_attempts(u16 level_id) {
     
     clear_menu_text_area();
 
-    // Get target screen block number
-    s32 sb_number = TEXT_SCREEN_BLOCK;
-
-    // Add SCREENBLOCK_H to print on the second screen block
-    if (scroll_page & 1) {
-        sb_number++;
-    }
-
-    memcpy32(&se_mem[sb_number][0], level_select_l2_tilemap, sizeof(level_select_l2_tilemap) / 4);
-
     // Display attempts count
     s32 label_x = 72;
     s32 value_x = 104;
     s32 base_y = 40;
-
-    if (scroll_page & 1) {
-        base_y += SCREENBLOCK_H;
-    }
 
     tte_set_pos(label_x << 3, base_y << 3);
     tte_write("TOTAL ATTEMPTS:");
