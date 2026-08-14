@@ -21,6 +21,7 @@ u16 game_state;
 #define TEXT_SCREEN_BLOCK 28
 
 void print_level_info(u16 level_id);
+void print_level_attempts(u16 level_id);
 void do_page_change(u16 level_id);
 void draw_endless_distance_menu(s32 x, s32 y, s32 page, u32 value);
 
@@ -614,7 +615,7 @@ void print_level_attempts(u16 level_id) {
     
     // Format and write the attempts count
     char attempt_str[16];
-    sprintf(attempt_str, "%d", level_data->attempts);
+    sprintf(attempt_str, "%lu", (unsigned long)level_data->attempts);
     tte_write(attempt_str);
     
     tte_set_pos(80, 160);

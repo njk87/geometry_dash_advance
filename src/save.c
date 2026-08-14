@@ -138,7 +138,6 @@ void write_save_block() {
 			}
 		}
 
-		int target = 0;
 		u32 next_seq = valid[0] ? seqs[0] + 1 : 1;
 
 		struct SaveSlot out;
