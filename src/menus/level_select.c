@@ -468,13 +468,17 @@ void do_menu_color_transition() {
     }
 }
 
-void do_page_change(u16 level_id) {
-    // Erase written text depending on page
+static void clear_menu_text_area(void) {
     if (scroll_page & 1) {
         tte_erase_rect(0, 256, 240, 512);
     } else {
         tte_erase_rect(0, 0, 240, 256);
     }
+}
+
+void do_page_change(u16 level_id) {
+    // Erase written text depending on page
+    clear_menu_text_area();
 
     // Write level name
     print_level_info(level_id);
@@ -597,6 +601,8 @@ s32 word_wrap(const char *text, s32 max_width, char lines[][max_width + 1], s32 
 void print_level_attempts(u16 level_id) {
     struct SaveLevelData *level_data = obtain_level_data(level_id);
     
+    clear_menu_text_area();
+
     // Get target screen block number
     s32 sb_number = TEXT_SCREEN_BLOCK;
 
@@ -614,10 +620,6 @@ void print_level_attempts(u16 level_id) {
 
     if (scroll_page & 1) {
         base_y += SCREENBLOCK_H;
-    }
-
-    for (u32 i = 0; i < 15; i++) {
-        se_plot(&se_mem[sb_number][0], label_x + i, base_y, SE_BUILD(0x00, 0, 0, 0));
     }
 
     tte_set_pos(label_x << 3, base_y << 3);
