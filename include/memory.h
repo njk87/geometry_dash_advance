@@ -68,11 +68,11 @@ extern EWRAM_DATA u16 bg_lvl_select_color_target;
 
 extern EWRAM_DATA struct UseEffectSlot use_effect_buffer[AFF_SLOT_USE_EFFECT_COUNT];
 
-extern OAM_SPR shadow_oam[128];
+extern EWRAM_DATA OAM_SPR shadow_oam[128];
 extern OBJ_AFFINE *obj_aff_buffer;
-extern u8 obj_priorities[128];
+extern EWRAM_DATA u8 obj_priorities[128];
 extern EWRAM_DATA u16 level_buffer[LEVEL_LAYERS][MAX_LEVEL_HEIGHT*LEVEL_BUFFER_WIDTH];
-extern IWRAM_DATA COLOR palette_buffer[512];
+extern EWRAM_DATA COLOR palette_buffer[512];
 extern EWRAM_DATA u16 rotation_buffer[NUM_ROT_SLOTS];
 extern EWRAM_DATA u16 rotation_flags_buffer[NUM_ROT_SLOTS];
 
@@ -114,12 +114,12 @@ extern u8 custom_levels;
 
 #define NUM_CHANNELS 16
 
-extern u8 music_data[NUM_CHANNELS * (MM_SIZEOF_MODCH
+extern EWRAM_DATA u8 music_data[NUM_CHANNELS * (MM_SIZEOF_MODCH
                                +MM_SIZEOF_ACTCH
                                +MM_SIZEOF_MIXCH)
                                +MM_MIXLEN_16KHZ];
 
-extern ALIGN4 u8 mixing_buffer[MM_MIXLEN_16KHZ];
+extern EWRAM_DATA ALIGN4 u8 mixing_buffer[MM_MIXLEN_16KHZ];
 
 #ifdef DEBUG
 extern u8 debug_mode;
@@ -147,7 +147,7 @@ extern u32 global_timer;
 extern u16 next_free_tile_id;
 extern u16 old_next_free_tile_id;
 
-extern struct ObjectCHRSlot chr_slots[MAX_CHR_SLOTS];
+extern EWRAM_DATA struct ObjectCHRSlot chr_slots[MAX_CHR_SLOTS];
 extern EWRAM_DATA u16 loaded_object_buffer_offset;
 extern EWRAM_DATA s16 loaded_object_buffer[MAX_OBJECTS];
 extern EWRAM_DATA u16 unloaded_object_buffer_offset;
@@ -156,7 +156,7 @@ extern EWRAM_DATA u16 block_object_buffer_offset;
 extern EWRAM_DATA s32 *block_object_buffer[MAX_OBJECTS];
 extern EWRAM_DATA u16 block_object_buffer_flags[MAX_OBJECTS];
 
-extern u8 vram_copy_buffer[2048];
+extern EWRAM_DATA u8 vram_copy_buffer[2048];
 
 extern s8 transition_frame;
 

@@ -4,10 +4,10 @@
 #include "sprite_routines.h"
 
 // OAM buffer
-OAM_SPR shadow_oam[128];
+EWRAM_DATA OAM_SPR shadow_oam[128];
 OBJ_AFFINE *obj_aff_buffer = (OBJ_AFFINE*) shadow_oam;
 
-u8 obj_priorities[128];
+EWRAM_DATA u8 obj_priorities[128];
 
 // Rotation data
 EWRAM_DATA u16 rotation_buffer[NUM_ROT_SLOTS];
@@ -17,7 +17,7 @@ EWRAM_DATA struct UseEffectSlot use_effect_buffer[AFF_SLOT_USE_EFFECT_COUNT];
 
 // Level buffer
 EWRAM_DATA u16 level_buffer[LEVEL_LAYERS][MAX_LEVEL_HEIGHT*LEVEL_BUFFER_WIDTH];
-IWRAM_DATA COLOR palette_buffer[512];
+EWRAM_DATA COLOR palette_buffer[512];
 
 EWRAM_DATA u16 col_trigger_buffer[CHANNEL_COUNT][5];
 EWRAM_DATA u8 col_channels_flags[CHANNEL_COUNT];
@@ -94,7 +94,7 @@ u32 global_timer;
 u16 next_free_tile_id = START_OF_OBJECT_CHR;
 u16 old_next_free_tile_id;
 
-struct ObjectCHRSlot chr_slots[MAX_CHR_SLOTS];
+EWRAM_DATA struct ObjectCHRSlot chr_slots[MAX_CHR_SLOTS];
 
 // Buffers for loading and unloading VRAM tiles for objects
 EWRAM_DATA u16 loaded_object_buffer_offset;

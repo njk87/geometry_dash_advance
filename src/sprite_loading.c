@@ -15,9 +15,9 @@ u16 *sprite_pointer;
 u64 last_sprite_x;
 
 // Rotation values for each saw
-u16 saw_rotation[4];
+EWRAM_DATA u16 saw_rotation[4];
 
-struct ObjectSlot object_buffer[MAX_OBJECTS];
+EWRAM_DATA struct ObjectSlot object_buffer[MAX_OBJECTS];
 
 FIXED pulsing_value;
 FIXED pulsing_orb_value;
