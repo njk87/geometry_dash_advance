@@ -75,7 +75,7 @@ EWRAM_DATA u8 music_data[NUM_CHANNELS * (MM_SIZEOF_MODCH
                                +MM_MIXLEN_16KHZ];
 
 
-ALIGN4 u8 mixing_buffer[MM_MIXLEN_16KHZ];
+EWRAM_DATA ALIGN4 u8 mixing_buffer[MM_MIXLEN_16KHZ];
 
 #ifdef DEBUG
 // 0 : off | 1 : on
@@ -109,7 +109,7 @@ EWRAM_DATA s32 *block_object_buffer[MAX_OBJECTS];
 EWRAM_DATA u16 block_object_buffer_flags[MAX_OBJECTS];
 
 // Buffer for copying purposes
-u8 vram_copy_buffer[2048];
+EWRAM_DATA u8 vram_copy_buffer[2048];
 
 // Controls the transition state
 // 0 : full | 30 : empty | 60 : full
