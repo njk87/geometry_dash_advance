@@ -607,18 +607,6 @@ void print_level_attempts(u16 level_id) {
 
     memcpy32(&se_mem[sb_number][0], level_select_l2_tilemap, sizeof(level_select_l2_tilemap) / 4);
 
-    // Keep the font renderer on the same screenblock as the visible background
-    tte_init_se(
-        2,
-        BG_CBB(0) | BG_SBB(sb_number) | BG_REG_64x32 | BG_PRIO(3),
-        0,
-        0,
-        0,
-        &pusabFont,
-        NULL
-    );
-    tte_set_special(0x2000);
-
     // Display attempts count
     s32 label_x = 72;
     s32 value_x = 104;
@@ -628,13 +616,16 @@ void print_level_attempts(u16 level_id) {
         base_y += SCREENBLOCK_H;
     }
 
-    tte_set_pos(label_x, base_y);
+    for (u32 i = 0; i < 15; i++) {
+        se_plot(&se_mem[sb_number][0], label_x + i, base_y, SE_BUILD(0x00, 0, 0, 0));
+    }
+
+    tte_set_pos(label_x << 3, base_y << 3);
     tte_write("TOTAL ATTEMPTS:");
 
-    // Format and write the attempts count
     char attempt_str[16];
     sprintf(attempt_str, "%lu", (unsigned long)level_data->attempts);
-    tte_set_pos(value_x, base_y + 16);
+    tte_set_pos(value_x << 3, (base_y + 2) << 3);
     tte_write(attempt_str);
 }
 
@@ -696,18 +687,6 @@ void print_level_info(u16 level_id) {
     }
 
     memcpy32(&se_mem[sb_number][0], level_select_l2_tilemap, sizeof(level_select_l2_tilemap) / 4);
-
-    // Bind the text renderer to the same screenblock as the page being drawn.
-    tte_init_se(
-        2,
-        BG_CBB(0) | BG_SBB(sb_number) | BG_REG_64x32 | BG_PRIO(3),
-        0,
-        0,
-        0,
-        &pusabFont,
-        NULL
-    );
-    tte_set_special(0x2000);
 
     // Print all lines
     for (s32 line = 0; line < MAX_LINES; line++) {
