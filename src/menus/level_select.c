@@ -608,20 +608,22 @@ void print_level_attempts(u16 level_id) {
     memcpy32(&se_mem[sb_number][0], level_select_l2_tilemap, sizeof(level_select_l2_tilemap) / 4);
 
     // Display attempts count
-    tte_set_pos(80, 80);
+    s32 label_x = 72;
+    s32 value_x = 104;
+    s32 base_y = 40;
+
+    if (scroll_page & 1) {
+        base_y += SCREENBLOCK_H;
+    }
+
+    tte_set_pos(label_x, base_y);
     tte_write("TOTAL ATTEMPTS:");
-    
-    tte_set_pos(80, 96);
-    
+
     // Format and write the attempts count
     char attempt_str[16];
     sprintf(attempt_str, "%lu", (unsigned long)level_data->attempts);
+    tte_set_pos(value_x, base_y + 16);
     tte_write(attempt_str);
-    
-    tte_set_pos(80, 160);
-    tte_write("PRESS SELECT AGAIN");
-    tte_set_pos(80, 176);
-    tte_write("TO RETURN");
 }
 
 
